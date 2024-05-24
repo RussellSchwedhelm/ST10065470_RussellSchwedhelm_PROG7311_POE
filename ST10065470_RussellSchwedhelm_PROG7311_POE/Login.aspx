@@ -4,14 +4,25 @@
     <div class="login-container">
         <h2>Login</h2>
         <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" />
+            <asp:Label ID="lblEmail" runat="server" AssociatedControlID="email">Email:</asp:Label>
+            <asp:TextBox ID="email" runat="server"></asp:TextBox>
         </div>
         <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" />
+            <asp:Label ID="lblPassword" runat="server" AssociatedControlID="password">Password:</asp:Label>
+            <asp:TextBox ID="password" runat="server" TextMode="Password"></asp:TextBox>
         </div>
-        <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="buttons" OnClick="btnLogin_Click" />
+        <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="buttons" OnClick="btnLogin_Click" OnClientClick="return validateEmail();" />
         <asp:Button ID="btnRegister" runat="server" Text="Register" CssClass="buttons" PostBackUrl="~/Register.aspx" />
     </div>
+
+    <script type="text/javascript">
+        function validateEmail() {
+            var email = document.getElementById("<%= email.ClientID %>").value;
+            if (email.indexOf("@") === -1) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </asp:Content>

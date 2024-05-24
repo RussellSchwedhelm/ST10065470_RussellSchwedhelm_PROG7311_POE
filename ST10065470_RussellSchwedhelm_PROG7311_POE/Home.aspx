@@ -22,14 +22,16 @@
         </div>
     </div>
     <div class="container">
+        <h2>Features</h2>
         <div class="about-message-container">
-            <div class="about-us">
-                <h2>About Us</h2>
-                <p>
-                    Agri-Energy Connect is a digital platform bridging sustainable agriculture and green energy solutions in South Africa.
-                    We foster collaboration, innovation, and resource sharing to promote eco-friendly and sustainable agricultural practices.
-                </p>
-            </div>
+        <div class="features-grid">
+            <div class="feature-item">Interactive forums for farmers and energy experts</div>
+            <div class="feature-item">Resource center for sustainable farming practices</div>
+            <div class="feature-item">Marketplace for green energy solutions</div>
+            <div class="feature-item">Educational resources and training</div>
+            <div class="feature-item">Project collaboration and funding opportunities</div>
+            <div class="feature-item">Additional Feature Placeholder</div>
+        </div>
             <div class="message-box">
                 <h3>Messages</h3>
                 <ul class="contact-list">
@@ -38,15 +40,6 @@
                     <li>Mark Johnson (Unread)</li>
                 </ul>
             </div>
-        </div>
-        <h2>Features</h2>
-        <div class="features-grid">
-            <div class="feature-item">Interactive forums for farmers and energy experts</div>
-            <div class="feature-item">Resource center for sustainable farming practices</div>
-            <div class="feature-item">Marketplace for green energy solutions</div>
-            <div class="feature-item">Educational resources and training</div>
-            <div class="feature-item">Project collaboration and funding opportunities</div>
-            <div class="feature-item">Additional Feature Placeholder</div>
         </div>
     </div>
 </asp:Content>

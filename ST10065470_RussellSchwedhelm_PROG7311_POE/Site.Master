@@ -45,6 +45,9 @@
                 <a class="nav-link" href="EducationalResources.aspx">Educational Resources</a>
                 <a class="nav-link" href="ProjectCollaboration.aspx">Project Collaboration</a>
                 <a class="nav-link" href="Forum.aspx">Forum</a>
+                <% if (Employee) { %>
+                    <a class="nav-link" href="ModifyFarmers.aspx">Modify Farmers</a>
+                <% } %>
                 <a class="nav-link" href="AboutUs.aspx">About Us</a>
             </div>
             <div class="navbar-nav ml-auto">

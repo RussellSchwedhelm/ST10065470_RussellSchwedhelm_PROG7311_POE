@@ -172,7 +172,6 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Resources\Images\ProjectCollaborationBanner.jpg" />
-    <Content Include="EmployeeSite.Master" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -236,13 +235,6 @@
     </Compile>
     <Compile Include="EducationalResources.aspx.designer.cs">
       <DependentUpon>EducationalResources.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeSite.Master.cs">
-      <DependentUpon>EmployeeSite.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EmployeeSite.Master.designer.cs">
-      <DependentUpon>EmployeeSite.Master</DependentUpon>
     </Compile>
     <Compile Include="ExpandedChat.aspx.cs">
       <DependentUpon>ExpandedChat.aspx</DependentUpon>
