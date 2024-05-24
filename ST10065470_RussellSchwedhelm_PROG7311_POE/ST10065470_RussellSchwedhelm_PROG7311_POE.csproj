@@ -103,6 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AboutUs.aspx" />
+    <Content Include="App_Data\AgriEnergyConnectDatabase.mdf" />
+    <Content Include="App_Data\AgriEnergyConnectDatabase_log.ldf">
+      <DependentUpon>AgriEnergyConnectDatabase.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -121,6 +125,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\styles.css" />
+    <Content Include="CreateFarmer.aspx" />
     <Content Include="CreateItem.aspx" />
     <Content Include="EducationalResources.aspx" />
     <Content Include="ExpandedChat.aspx" />
@@ -130,6 +135,7 @@
     <Content Include="GreenEnergyMarketplace.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="ModifyFarmers.aspx" />
     <Content Include="NewChat.aspx" />
     <Content Include="ProjectCollaboration.aspx" />
     <Content Include="Register.aspx" />
@@ -210,6 +216,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CreateFarmer.aspx.cs">
+      <DependentUpon>CreateFarmer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateFarmer.aspx.designer.cs">
+      <DependentUpon>CreateFarmer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreateItem.aspx.cs">
       <DependentUpon>CreateItem.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -269,6 +282,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ModifyFarmers.aspx.cs">
+      <DependentUpon>ModifyFarmers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModifyFarmers.aspx.designer.cs">
+      <DependentUpon>ModifyFarmers.aspx</DependentUpon>
+    </Compile>
     <Compile Include="NewChat.aspx.cs">
       <DependentUpon>NewChat.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -313,9 +333,7 @@
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
