@@ -18,17 +18,21 @@
             align-items: center;
             padding: 20px 0;
         }
-        .store-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
         #txtSearch {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             margin-right: 10px;
+        }
+        .supplier-list, .item-list {
+            max-height: 200px;
+            overflow-y: scroll;
+            padding: 0;
+            list-style: none;
+        }
+        .supplier-list li, .item-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
         }
     </style>
     <div class="hero-section">
@@ -43,28 +47,26 @@
         </p>
         <div class="marketplace-header">
             <h2 class="section-title">Marketplace</h2>
-            <div class="search-bar">
-                <input type="text" id="txtSearch" placeholder="Search Suppliers..." />
-                <button type="button" class="buttons">Search</button>
+            <div class="search-bar" style="display: flex; align-items: center;">
+                <asp:TextBox ID="txtSearch" runat="server" placeholder="Search Suppliers or Items..." CssClass="form-control" />
+                <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="buttons" />
             </div>
         </div>
-        <ul id="supplierList" class="supplier-list">
-            <li>Supplier 1</li>
-            <li>Supplier 2</li>
-            <li>Supplier 3</li>
-            <li>Supplier 4</li>
-            <li>Supplier 5</li>
-        </ul>
-        <div class="store-header">
-            <h2 class="section-title">My Store</h2>
-            <button type="button" PostBackUrl="~/CreateItem.aspx"class="buttons">Create New Item</button>
+        <asp:Repeater ID="supplierList" runat="server">
+            <ItemTemplate>
+                <li><%# Eval("FirstName") %> <%# Eval("Surname") %></li>
+            </ItemTemplate>
+        </asp:Repeater>
+        <div id="MyStore" runat="server">
+            <div class="store-header">
+                <h2 class="section-title">My Store</h2>
+                <asp:Button PostBackUrl="~/CreateItem.aspx" Text="Create New Item" runat="server" CssClass="buttons" />
+            </div>
+            <asp:Repeater ID="itemList" runat="server">
+                <ItemTemplate>
+                    <li><%# Eval("ProductName") %></li>
+                </ItemTemplate>
+            </asp:Repeater>
         </div>
-        <ul id="itemList" class="supplier-list">
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
-            <li>Item 4</li>
-            <li>Item 5</li>
-        </ul>
     </div>
 </asp:Content>

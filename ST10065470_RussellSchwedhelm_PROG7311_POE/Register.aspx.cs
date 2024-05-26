@@ -11,6 +11,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Initialize session variable for login status
             Session["IsLoggedOn"] = false;
         }
 
@@ -37,14 +38,22 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Email", email);
 
-                connection.Open();
-                int count = (int)command.ExecuteScalar();
-                if (count > 0)
+                try
                 {
-                    // If the email already exists, display an error message to the user
-                    string script = "alert('Email Already Registered');";
-                    ScriptManager.RegisterStartupScript(this, GetType(), "InvalidEmail", script, true);
-                    return;
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        // If the email already exists, display an error message to the user
+                        string script = "alert('Email Already Registered');";
+                        ScriptManager.RegisterStartupScript(this, GetType(), "InvalidEmail", script, true);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle database connection errors
+                    Response.Write("An error occurred: " + ex.Message);
                 }
             }
 
@@ -60,14 +69,22 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@EmployeeCode", employeeCode);
 
-                    connection.Open();
-                    int count = (int)command.ExecuteScalar();
-                    if (count == 0)
+                    try
                     {
-                        // If the employee code doesn't exist, display an error message to the user
-                        string script = "alert('Employee Code Invalid');";
-                        ScriptManager.RegisterStartupScript(this, GetType(), "InvalidCode", script, true);
-                        return;
+                        connection.Open();
+                        int count = (int)command.ExecuteScalar();
+                        if (count == 0)
+                        {
+                            // If the employee code doesn't exist, display an error message to the user
+                            string script = "alert('Employee Code Invalid');";
+                            ScriptManager.RegisterStartupScript(this, GetType(), "InvalidCode", script, true);
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle database connection errors
+                        Response.Write("An error occurred: " + ex.Message);
                     }
                 }
             }
@@ -83,11 +100,19 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 command.Parameters.AddWithValue("@Password", hashedPassword);
                 command.Parameters.AddWithValue("@Employee", isEmployee ? 1 : 0);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    // Handle database connection errors
+                    Response.Write("An error occurred: " + ex.Message);
+                }
             }
 
-            // User registration successful
+            // User registration successful, redirect to login page
             Response.Redirect("~/Login.aspx");
         }
 
@@ -107,4 +132,3 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
         }
     }
 }
-//-----------------------------------------------------------------------------------------------------------------------------//

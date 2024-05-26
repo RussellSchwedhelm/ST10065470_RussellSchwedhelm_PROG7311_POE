@@ -12,7 +12,9 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["IsLoggedOn"] = false;
+            // Initialize session variables
+            Session["IsLoggedOn"] = false; // Set IsLoggedOn to false by default
+            Session["UserID"] = -1; // Set UserID to -1 by default
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -29,22 +31,26 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             // Connect to the database and validate the credentials
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT COUNT(*) FROM Users WHERE Email = @Email AND Password = @Password";
+                string query = "SELECT Id FROM Users WHERE Email = @Email AND Password = @Password";
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Email", email); // Changed to email
+                command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Password", hashedPassword);
 
                 try
                 {
                     connection.Open();
-                    int count = (int)command.ExecuteScalar();
-                    if (count > 0)
+                    object result = command.ExecuteScalar();
+                    if (result != null)
                     {
+                        int userId = Convert.ToInt32(result);
+
+                        // Set the UserID in the session
+                        Session["UserID"] = userId;
 
                         // Set the Employee status in session
                         Session["IsEmployee"] = CheckIfEmployee(email);
 
-                        // Set the Employee status in session
+                        // Set the LoggedOn status in session
                         Session["IsLoggedOn"] = true;
 
                         // Credentials are correct, redirect to home page
@@ -93,16 +99,23 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             return false;
         }
 
+        // Method to hash the password using SHA-256 algorithm
         private string HashPassword(string password)
         {
+            // Create SHA-256 hash object
             using (SHA256 sha256 = SHA256.Create())
             {
+                // Compute hash from password bytes
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convert bytes to hexadecimal string
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < bytes.Length; i++)
                 {
                     builder.Append(bytes[i].ToString("x2"));
                 }
+
+                // Return the hashed password
                 return builder.ToString();
             }
         }

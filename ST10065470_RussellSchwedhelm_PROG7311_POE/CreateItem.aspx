@@ -16,7 +16,7 @@
 
         .create-item-container label {
             margin-bottom: 5px;
-            align-items:center;
+            align-items: center;
         }
 
         .create-item-container input[type="text"],
@@ -28,47 +28,50 @@
             margin-bottom: 15px;
             padding: 10px;
             width: calc(100% - 22px);
-            align-items:center;
+            align-items: center;
         }
 
         .create-item-container textarea {
             resize: vertical;
             height: 100px;
             width: 100%;
-            align-items:center;
+            align-items: center;
         }
 
         .create-item-container select {
-            appearance: none; /* Remove default appearance */
-            -webkit-appearance: none; /* Remove default appearance for Safari */
-            -moz-appearance: none; /* Remove default appearance for Firefox */
-            align-items:center;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            align-items: center;
         }
     </style>
+
+    <script type="text/javascript">
+        function showCategoryInput() {
+            document.getElementById('<%= inp_newCategory.ClientID %>').style.display = 'block';
+        }
+    </script>
 
     <div class="container">
         <h1>Create Item</h1>
 
         <div class="create-item-container">
-            <label for="itemName">Item Name</label>
-            <input type="text" id="itemName" name="itemName" required />
+            <label for="inp_itemName">Item Name</label>
+            <input type="text" id="inp_itemName" name="itemName" runat="server" />
 
-            <label for="category">Category</label>
-                <select id="category" name="category" required>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="home-goods">Home Goods</option>
-                </select>
-                <button type="button" class="buttons" onclick="showCategoryInput()">New Category</button>
-            <input type="text" id="newCategory" name="newCategory" placeholder="Enter new category" style="display: none;" />
+            <label for="sel_category">Category</label>
+            <select id="sel_category" name="category" runat="server">
+            </select>
+            <input type="text" id="inp_newCategory" name="newCategory" runat="server" placeholder="Enter new category" style="display: none;" />
+            <asp:Button ID="btnNewCat" CssClass="buttons" runat="server" Text="New Category" OnClientClick="showCategoryInput(); return false;" />
 
-            <label for="dateOfProduction">Date of Production</label>
-            <input type="date" id="dateOfProduction" name="dateOfProduction" required />
+            <label for="inp_dateOfProduction">Date of Production</label>
+            <input type="date" id="inp_dateOfProduction" name="dateOfProduction" runat="server" />
 
-            <label for="description">Description</label>
-            <textarea id="description" name="description" required></textarea>
+            <label for="inp_description">Description</label>
+            <textarea id="inp_description" name="description" runat="server"></textarea>
 
-            <input type="submit" class="buttons" value="Create Item" />
+            <asp:Button ID="btnCreateItem" CssClass="buttons" runat="server" Text="Create Item" OnClick="btnCreateItem_Click" />
         </div>
     </div>
 </asp:Content>
