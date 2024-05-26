@@ -18,11 +18,19 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 // Redirect the user to the login page if not logged in
                 Response.Redirect("~/Login.aspx");
             }
-
-            if (!IsPostBack)
+            else
             {
-                // Populate the categories dropdown list
-                PopulateCategories();
+                // Check if the user is an employee
+                if (master.Employee)
+                {
+                    Response.Redirect("~/Home.aspx");
+                }
+
+                if (!IsPostBack)
+                {
+                    // Populate the categories dropdown list
+                    PopulateCategories();
+                }
             }
         }
 

@@ -36,7 +36,7 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-<% if (!(Request.Url.AbsolutePath.EndsWith("Login") || Request.Url.AbsolutePath.EndsWith("Register"))) { %>
+<% if (!(Request.Url.AbsolutePath.EndsWith("Login") || Request.Url.AbsolutePath.EndsWith("Register") || Request.Url.AbsolutePath.EndsWith("ResetPassword"))) { %>
     <nav class="navbar navbar-expand-sm navbar-custom">
         <div class="container-fluid">
             <div class="navbar-nav">

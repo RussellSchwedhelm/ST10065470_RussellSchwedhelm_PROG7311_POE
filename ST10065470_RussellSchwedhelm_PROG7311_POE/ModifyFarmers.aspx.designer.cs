@@ -24,67 +24,22 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
         protected global::System.Web.UI.WebControls.Button btnCreateNew;
 
         /// <summary>
-        /// btnModifyJohn control.
+        /// itemList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnModifyJohn;
+        protected global::System.Web.UI.WebControls.Repeater itemList;
 
         /// <summary>
-        /// btnDeleteJohn control.
+        /// hiddenFarmerId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDeleteJohn;
-
-        /// <summary>
-        /// btnModifyJane control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnModifyJane;
-
-        /// <summary>
-        /// btnDeleteJane control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDeleteJane;
-
-        /// <summary>
-        /// btnModifyMark control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnModifyMark;
-
-        /// <summary>
-        /// btnDeleteMark control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDeleteMark;
-
-        /// <summary>
-        /// hiddenFarmerName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hiddenFarmerName;
+        protected global::System.Web.UI.WebControls.HiddenField hiddenFarmerId;
 
         /// <summary>
         /// btnBack control.

@@ -12,17 +12,26 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initialize session variable for login status
-            Session["IsLoggedOn"] = false;
+            if (Session["IsLoggedOn"] == null)
+            {
+                Session["IsLoggedOn"] = false;
+            }
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)
         {
             // Retrieve user input from form fields
             string firstName = inp_firstName.Text;
-            string lastName = inp_lastName.Text;
+            string surname = inp_surname.Text;
             string email = inp_email.Text;
             string password = inp_password.Text;
-            string confirmPassword = inp_confirmPassword.Text;
+            int streetNum = int.Parse(txtStreetNumber.Text);
+            string street = txtStreet.Text;
+            string city = txtCity.Text;
+            string suburb = txtSuburb.Text;
+            string country = txtCountry.Text;
+            string province = txtProvince.Text;
+            string phone = txtPhone.Text;
             bool isEmployee = employeeCheck.Checked;
 
             // Hash the password using SHA-256 encryption
@@ -53,7 +62,8 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 catch (Exception ex)
                 {
                     // Handle database connection errors
-                    Response.Write("An error occurred: " + ex.Message);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured: " + ex.Message + "');", true);
+                    return;
                 }
             }
 
@@ -84,7 +94,8 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                     catch (Exception ex)
                     {
                         // Handle database connection errors
-                        Response.Write("An error occurred: " + ex.Message);
+                        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured: " + ex.Message + "');", true);
+                        return;
                     }
                 }
             }
@@ -92,13 +103,22 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             // Insert the user data into the database
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO Users (FirstName, Surname, Email, Password, Employee) VALUES (@FirstName, @Surname, @Email, @Password, @Employee)";
+                string query = "INSERT INTO Users (FirstName, Surname, Email, Password, Employee, " +
+                    "StreetNumber, Street, Suburb, City, Province, Country, Phone) VALUES (@FirstName, " +
+                    "@Surname, @Email, @Password, @Employee, @StreetNumber, @Street, @Suburb, @City, @Province, @Country, @Phone)";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@FirstName", firstName);
-                command.Parameters.AddWithValue("@Surname", lastName);
+                command.Parameters.AddWithValue("@Surname", surname);
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Password", hashedPassword);
                 command.Parameters.AddWithValue("@Employee", isEmployee ? 1 : 0);
+                command.Parameters.AddWithValue("@StreetNumber", streetNum);
+                command.Parameters.AddWithValue("@Street", street);
+                command.Parameters.AddWithValue("@Suburb", suburb);
+                command.Parameters.AddWithValue("@City", city);
+                command.Parameters.AddWithValue("@Province", province);
+                command.Parameters.AddWithValue("@Country", country);
+                command.Parameters.AddWithValue("@Phone", phone);
 
                 try
                 {
@@ -108,7 +128,8 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 catch (Exception ex)
                 {
                     // Handle database connection errors
-                    Response.Write("An error occurred: " + ex.Message);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured: " + ex.Message + "');", true);
+                    return;
                 }
             }
 

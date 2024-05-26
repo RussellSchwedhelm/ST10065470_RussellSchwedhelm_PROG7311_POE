@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Create New Farmer" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CreateFarmer.aspx.cs" Inherits="ST10065470_RussellSchwedhelm_PROG7311_POE.CreateFarmer" %>
+﻿<%@ Page Title="Modify Farmer" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CreateFarmer.aspx.cs" Inherits="ST10065470_RussellSchwedhelm_PROG7311_POE.CreateFarmer" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link href="<%= ResolveUrl("~/Content/styles.css") %>" rel="stylesheet" type="text/css" />
     <style>
@@ -92,9 +92,8 @@
     </style>
 
     <div class="create-farmer-container">
-        <h2>Create New Farmer</h2>
-        <div class="section-separator"></div> <!-- Line between main heading and first section title -->
-        <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
+        <h2>Modify Farmer</h2>
+        <div class="section-separator"></div>
         
         <div class="form-group">
             <div class="section-title">Name</div>
@@ -120,22 +119,68 @@
         </div>
     </div>
 
-    <!-- Popup -->
+    <!-- Popup for success message -->
     <div class="overlay" id="popupOverlay">
         <div class="popup">
-            <p>Farmer Details Have Been Saved.</p>
-            <button class="buttons" id="btnContinue">Continue</button>
+            <p id="popupMessage"></p>
+            <button class="buttons" id="btnContinue" OnClick="btnContinue_Click">Continue</button>
         </div>
     </div>
 
     <script>
         document.getElementById('btnSubmit').addEventListener('click', function (event) {
             event.preventDefault();
+
+            // Input validation checks
+            var firstName = document.getElementById('txtFirstName').value.trim();
+            var lastName = document.getElementById('txtSurname').value.trim();
+            var streetNumber = document.getElementById('txtStreetNumber').value.trim(); // Added street number check
+            var email = document.getElementById('txtEmail').value.trim();
+            var phone = document.getElementById('txtPhone').value.trim();
+            var country = document.getElementById('txtCountry').value.trim();
+
+            if (firstName === '') {
+                alert("Please Enter A First Name");
+                return false;
+            }
+
+            if (lastName === '') {
+                alert("Please Enter A Surname");
+                return false;
+            }
+
+            if (!/^\d+$/.test(streetNumber)) {
+                alert("Street Number Must Contain Only Numbers");
+                return false;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                alert("Please Enter A Valid Email");
+                return false;
+            }
+
+            if (!/^\d+$/.test(phone)) {
+                alert("Phone Number Must Contain Only Numbers");
+                return false;
+            }
+
+            if (/\d/.test(country)) {
+                alert("Country Name Cannot Contain Numbers");
+                return false;
+            }
+
+            // If all checks pass, display the popup
             document.getElementById('popupOverlay').style.display = 'block';
         });
 
+        function showPopup(message) {
+            document.getElementById('popupOverlay').style.display = 'block';
+            document.getElementById('popupMessage').innerText = message;
+        }
+
+        // Continue button action
         document.getElementById('btnContinue').addEventListener('click', function () {
             window.location.href = 'ModifyFarmers.aspx';
-        });
+        }
     </script>
 </asp:Content>

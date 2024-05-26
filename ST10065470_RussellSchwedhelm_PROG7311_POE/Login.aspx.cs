@@ -4,11 +4,10 @@ using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 {
-    public partial class Login : System.Web.UI.Page
+    public partial class Login : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

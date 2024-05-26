@@ -139,6 +139,7 @@
     <Content Include="NewChat.aspx" />
     <Content Include="ProjectCollaboration.aspx" />
     <Content Include="Register.aspx" />
+    <Content Include="ResetPassword.aspx" />
     <Content Include="Resources\Images\GreenEnergyBanner.jpg" />
     <Content Include="Resources\Images\HomeBanner.jpg" />
     <Content Include="Resources\Images\EducationalResourcesBanner.jpg" />
@@ -302,6 +303,13 @@
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

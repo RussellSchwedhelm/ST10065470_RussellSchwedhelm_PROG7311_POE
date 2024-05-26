@@ -13,6 +13,7 @@
         </div>
         <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="buttons" OnClick="btnLogin_Click" OnClientClick="return validateEmail();" />
         <asp:Button ID="btnRegister" runat="server" Text="Register" CssClass="buttons" PostBackUrl="~/Register.aspx" />
+        <asp:Button ID="btnPasswordReset" runat="server" Text="Reset Password" CssClass="buttons" PostBackUrl="~/ResetPassword.aspx" />
     </div>
 
     <script type="text/javascript">
