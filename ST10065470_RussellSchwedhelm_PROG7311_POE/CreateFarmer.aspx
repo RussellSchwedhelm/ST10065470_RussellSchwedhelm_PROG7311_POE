@@ -120,67 +120,58 @@
     </div>
 
     <!-- Popup for success message -->
-    <div class="overlay" id="popupOverlay">
+    <div id="overlay" class="overlay" style="display: none;">
         <div class="popup">
             <p id="popupMessage"></p>
-            <button class="buttons" id="btnContinue" OnClick="btnContinue_Click">Continue</button>
+            <asp:HiddenField ID="hiddenFarmerId" runat="server" />
+            <div class="popup-buttons">
+                <button class="buttons" id="btnContinue" runat="server" onserverclick="btnContinue_Click">Continue</button>
+            </div>
         </div>
     </div>
 
-    <script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('btnSubmit').addEventListener('click', function (event) {
             event.preventDefault();
 
             // Input validation checks
             var firstName = document.getElementById('txtFirstName').value.trim();
             var lastName = document.getElementById('txtSurname').value.trim();
-            var streetNumber = document.getElementById('txtStreetNumber').value.trim(); // Added street number check
+            var streetNumber = document.getElementById('txtStreetNumber').value.trim();
             var email = document.getElementById('txtEmail').value.trim();
             var phone = document.getElementById('txtPhone').value.trim();
             var country = document.getElementById('txtCountry').value.trim();
 
-            if (firstName === '') {
-                alert("Please Enter A First Name");
-                return false;
-            }
-
-            if (lastName === '') {
-                alert("Please Enter A Surname");
-                return false;
-            }
-
-            if (!/^\d+$/.test(streetNumber)) {
-                alert("Street Number Must Contain Only Numbers");
+            if (streetNumber.Any(char.IsLetter)) {
+                showPopup("Street Number Must Contain Only Numbers");
                 return false;
             }
 
             if (!email.includes('@') || !email.includes('.')) {
-                alert("Please Enter A Valid Email");
+                showPopup("Please Enter A Valid Email");
                 return false;
             }
 
-            if (!/^\d+$/.test(phone)) {
-                alert("Phone Number Must Contain Only Numbers");
+            if (phone.Any(char.IsLetter)) {
+                showPopup("Phone Number Must Contain Only Numbers");
                 return false;
             }
 
-            if (/\d/.test(country)) {
-                alert("Country Name Cannot Contain Numbers");
+            if (!country.Any(char.IsLetter)) {
+                showPopup("Country Name Cannot Contain Numbers");
                 return false;
             }
-
-            // If all checks pass, display the popup
-            document.getElementById('popupOverlay').style.display = 'block';
         });
+    });
 
-        function showPopup(message) {
-            document.getElementById('popupOverlay').style.display = 'block';
-            document.getElementById('popupMessage').innerText = message;
-        }
+    function showPopup(message) {
+        document.getElementById('popupMessage').innerText = message;
+        document.getElementById('overlay').style.display = 'flex';
+    }
 
-        // Continue button action
-        document.getElementById('btnContinue').addEventListener('click', function () {
-            window.location.href = 'ModifyFarmers.aspx';
-        }
-    </script>
+    function hidePopup() {
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
 </asp:Content>

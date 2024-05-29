@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ST10065470_RussellSchwedhelm_PROG7311_POE.Classes;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
@@ -9,6 +10,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 {
     public partial class Register : System.Web.UI.Page
     {
+        DBController dbController;
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initialize session variable for login status
@@ -16,6 +18,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             {
                 Session["IsLoggedOn"] = false;
             }
+            dbController = new DBController();
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)
@@ -25,116 +28,58 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             string surname = inp_surname.Text;
             string email = inp_email.Text;
             string password = inp_password.Text;
-            int streetNum = int.Parse(txtStreetNumber.Text);
+            string streetNum = txtStreetNumber.Text;
             string street = txtStreet.Text;
             string city = txtCity.Text;
             string suburb = txtSuburb.Text;
             string country = txtCountry.Text;
             string province = txtProvince.Text;
             string phone = txtPhone.Text;
+            string employee = "0";
             bool isEmployee = employeeCheck.Checked;
 
             // Hash the password using SHA-256 encryption
             string hashedPassword = HashPassword(password);
 
-            // Retrieve the connection string from Web.config file
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            // Check if the user with the provided email already exists in the database
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Email", email);
-
-                try
-                {
-                    connection.Open();
-                    int count = (int)command.ExecuteScalar();
-                    if (count > 0)
+                    if (dbController.CheckForEmail(email))
                     {
                         // If the email already exists, display an error message to the user
                         string script = "alert('Email Already Registered');";
                         ScriptManager.RegisterStartupScript(this, GetType(), "InvalidEmail", script, true);
                         return;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle database connection errors
-                    ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured: " + ex.Message + "');", true);
-                    return;
-                }
+            }
+            else
+            {
+
             }
 
             // If the user is an employee, validate the employee code
             if (isEmployee)
             {
                 string employeeCode = inp_employeeCode.Text;
-
-                // Check if the provided employee code exists in the database
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                if (!dbController.CheckEmployeeCodes(employeeCode))
                 {
-                    string query = "SELECT COUNT(*) FROM EmployeeCodes WHERE Codes = @EmployeeCode";
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@EmployeeCode", employeeCode);
-
-                    try
-                    {
-                        connection.Open();
-                        int count = (int)command.ExecuteScalar();
-                        if (count == 0)
-                        {
-                            // If the employee code doesn't exist, display an error message to the user
-                            string script = "alert('Employee Code Invalid');";
-                            ScriptManager.RegisterStartupScript(this, GetType(), "InvalidCode", script, true);
-                            return;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle database connection errors
-                        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured: " + ex.Message + "');", true);
-                        return;
-                    }
-                }
-            }
-
-            // Insert the user data into the database
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = "INSERT INTO Users (FirstName, Surname, Email, Password, Employee, " +
-                    "StreetNumber, Street, Suburb, City, Province, Country, Phone) VALUES (@FirstName, " +
-                    "@Surname, @Email, @Password, @Employee, @StreetNumber, @Street, @Suburb, @City, @Province, @Country, @Phone)";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@FirstName", firstName);
-                command.Parameters.AddWithValue("@Surname", surname);
-                command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@Password", hashedPassword);
-                command.Parameters.AddWithValue("@Employee", isEmployee ? 1 : 0);
-                command.Parameters.AddWithValue("@StreetNumber", streetNum);
-                command.Parameters.AddWithValue("@Street", street);
-                command.Parameters.AddWithValue("@Suburb", suburb);
-                command.Parameters.AddWithValue("@City", city);
-                command.Parameters.AddWithValue("@Province", province);
-                command.Parameters.AddWithValue("@Country", country);
-                command.Parameters.AddWithValue("@Phone", phone);
-
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    // Handle database connection errors
-                    ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured: " + ex.Message + "');", true);
+                    // If the employee code doesn't exist, display an error message to the user
+                    string script = "alert('Employee Code Invalid');";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "InvalidCode", script, true);
                     return;
                 }
+                else
+                {
+                    employee = "1";
+                }
             }
-
-            // User registration successful, redirect to login page
-            Response.Redirect("~/Login.aspx");
+            if (dbController.CreateUser(firstName, surname, email, hashedPassword, streetNum, street, suburb, city, province, country, phone, employee))
+            {
+                // User registration successful, redirect to login page
+                Response.Redirect("~/Login.aspx");
+            }
+            else
+            {
+                // Handle database connection errors
+                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('An Error Occured');", true);
+                return;
+            }
         }
 
         // Method to hash the password using SHA-256 encryption

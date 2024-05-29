@@ -103,27 +103,33 @@
         // Client-side input validation
         document.getElementById('<%= btnResetPassword.ClientID %>').addEventListener('click', function () {
             // Retrieve form field values
+            var oldPassword = document.getElementById('<%= inp_oldPassword.ClientID %>').value;
             var password = document.getElementById('<%= inp_newPassword.ClientID %>').value;
             var repassword = document.getElementById('<%= inp_confirmNewPassword.ClientID %>').value;
             var email = document.getElementById('<%= inp_email.ClientID %>').value.trim();
 
             // Validation checks
-            if (!email.includes('@') || !email.includes('.')) {
+            if (oldPassword == "" || password == "" || repassword == "" || email == "") {
+                alert("All Fields Are Required");
+                return false;
+            }
+
+            else if (!email.includes('@') || !email.includes('.')) {
                 alert("Please Enter A Valid Email");
                 return false;
             }
 
-            if (password.length < 12) {
+            else if (password.length < 12) {
                 alert("Passwords Must Be At Least 12 Characters Long");
                 return false;
             }
 
-            if (password !== repassword) {
+            else if (password !== repassword) {
                 alert("Passwords Must Match");
                 return false;
             }
 
-            if (!/\d/.test(password) || !/[A-Z]/.test(password)) {
+            else if (!/\d/.test(password) || !/[A-Z]/.test(password)) {
                 alert("Password Must Contain At Least One Number And One Capital Letter");
                 return false;
             }

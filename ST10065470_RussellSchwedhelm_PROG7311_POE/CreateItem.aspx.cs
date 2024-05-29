@@ -105,9 +105,6 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                     {
                         sel_category.Items.Add(new ListItem(reader["Category"].ToString(), reader["Id"].ToString()));
                     }
-
-                    // Add an option to create a new category
-                    sel_category.Items.Add(new ListItem("New Category", "new"));
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ST10065470_RussellSchwedhelm_PROG7311_POE.Classes;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
@@ -8,6 +9,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 {
     public partial class ModifyFarmers : System.Web.UI.Page
     {
+        DBController dbController;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!(this.Master is SiteMaster master) || !master.LoggedOn)
@@ -20,8 +22,9 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 {
                     Response.Redirect("~/Home.aspx");
                 }
-                else if (!IsPostBack)
+                else
                 {
+                    dbController = new DBController();
                     LoadFarmers();
                 }
             }
@@ -29,26 +32,27 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 
         private void LoadFarmers()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            string query = "SELECT Id, FirstName + ' ' + Surname AS Username FROM Users WHERE Employee = 0";
+            SqlDataReader reader = dbController.GetAllFarmers();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (reader != null)
             {
-                SqlCommand command = new SqlCommand(query, connection);
                 try
                 {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
                     itemList.DataSource = reader;
                     itemList.DataBind();
                 }
-                catch (Exception ex)
+                finally
                 {
-                    // Handle exception
-                    Response.Write("An error occurred: " + ex.Message);
+                    reader.Close();
                 }
             }
+            else
+            {
+                // Handle exception
+                Response.Write("An Error Occurred!");
+            }
         }
+
 
         protected void btnCreateNew_Click(object sender, EventArgs e)
         {
@@ -72,24 +76,10 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 
         private void DeleteFarmer(string farmerId)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            string query = "DELETE FROM Users WHERE Id = @Id";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            string response = dbController.DeleteFarmer(farmerId);
+            if (response != null)
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Id", farmerId);
-
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    // Handle exception
-                    Response.Write("An error occurred: " + ex.Message);
-                }
+                Response.Write("An error occurred: " + response);
             }
         }
 

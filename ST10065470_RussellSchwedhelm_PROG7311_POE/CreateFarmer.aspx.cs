@@ -1,14 +1,19 @@
-﻿using System;
+﻿using ST10065470_RussellSchwedhelm_PROG7311_POE.Classes;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.Services.Description;
 using System.Web.UI;
 
 namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 {
     public partial class CreateFarmer : System.Web.UI.Page
     {
+        DBController dbController;
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if the user is logged on
@@ -20,7 +25,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 
             // Get the FarmerId from the query string
             string farmerId = Request.QueryString["FarmerId"];
-
+            dbController = new DBController();
             // If the FarmerId is not null or empty, load the farmer details
             if (!IsPostBack && !string.IsNullOrEmpty(farmerId))
             {
@@ -30,57 +35,46 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 
         private void LoadFarmerDetails(string farmerId)
         {
-            // Get the connection string from Web.config
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            Dictionary<string, string> farmerDetails = dbController.GetFarmerDetails(farmerId);
 
-            // Query to retrieve farmer details
-            string selectQuery = "SELECT FirstName, Surname, Email, StreetNumber, Street, Suburb, City, Province, Country, Phone FROM Users WHERE Id = @FarmerId";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            // Check if details were found for the farmer
+            if (farmerDetails != null)
             {
-                SqlCommand command = new SqlCommand(selectQuery, connection);
-                command.Parameters.AddWithValue("@FarmerId", farmerId);
-
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    // Populate form fields with the farmer's details
-                    txtFirstName.Text = reader["FirstName"].ToString();
-                    txtSurname.Text = reader["Surname"].ToString();
-                    txtEmail.Text = reader["Email"].ToString();
-                    txtStreetNumber.Text = reader["StreetNumber"].ToString();
-                    txtStreet.Text = reader["Street"].ToString();
-                    txtSuburb.Text = reader["Suburb"].ToString();
-                    txtCity.Text = reader["City"].ToString();
-                    txtProvince.Text = reader["Province"].ToString();
-                    txtCountry.Text = reader["Country"].ToString();
-                    txtPhone.Text = reader["Phone"].ToString();
-                }
-                connection.Close();
+                txtFirstName.Text = farmerDetails["FirstName"];
+                txtSurname.Text = farmerDetails["Surname"];
+                txtEmail.Text = farmerDetails["Email"];
+                txtStreetNumber.Text = farmerDetails["StreetNumber"];
+                txtStreet.Text = farmerDetails["Street"];
+                txtSuburb.Text = farmerDetails["Suburb"];
+                txtCity.Text = farmerDetails["City"];
+                txtProvince.Text = farmerDetails["Province"];
+                txtCountry.Text = farmerDetails["Country"];
+                txtPhone.Text = farmerDetails["Phone"];
             }
         }
 
         protected void btnContinue_Click(object sender, EventArgs e)
         {
+            // Redirect to another page or take some action
             Response.Redirect("~/ModifyFarmers");
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             // Retrieve the form data
-            string firstName = txtFirstName.Text.Trim(); // Extract first name from the text box
-            string surname = txtSurname.Text.Trim(); // Extract surname from the text box
-            string streetNumber = txtStreetNumber.Text.Trim(); // Extract street number from the text box
-            string street = txtStreet.Text.Trim(); // Extract street name from the text box
-            string suburb = txtSuburb.Text.Trim(); // Extract suburb from the text box
-            string city = txtCity.Text.Trim(); // Extract city from the text box
-            string province = txtProvince.Text.Trim(); // Extract province from the text box
-            string country = txtCountry.Text.Trim(); // Extract country from the text box
-            string email = txtEmail.Text.Trim(); // Extract email from the text box
-            string phone = txtPhone.Text.Trim(); // Extract phone number from the text box
-            string password = string.Empty; // Initialize password variable
-            string farmerId = Request.QueryString["FarmerId"]; // Get FarmerId from query string
+            string firstName = txtFirstName.Text.Trim();
+            string surname = txtSurname.Text.Trim();
+            string streetNumber = txtStreetNumber.Text.Trim();
+            string street = txtStreet.Text.Trim();
+            string suburb = txtSuburb.Text.Trim();
+            string city = txtCity.Text.Trim();
+            string province = txtProvince.Text.Trim();
+            string country = txtCountry.Text.Trim();
+            string email = txtEmail.Text.Trim();
+            string phone = txtPhone.Text.Trim();
+            string password;
+            string farmerId = Request.QueryString["FarmerId"];
+            string message;
 
             // Validate the form data
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surname) ||
@@ -94,93 +88,45 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 return;
             }
 
-            // Get the connection string from Web.config
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (!string.IsNullOrEmpty(farmerId))
             {
-                string query;
-                SqlCommand command = new SqlCommand();
-                command.Connection = connection;
-
-                // If FarmerId is present, update the farmer's details
-                if (!string.IsNullOrEmpty(farmerId))
+                // Update existing farmer
+                if (dbController.UpdateUser(farmerId, firstName, surname, email, streetNumber, street,
+                        suburb, city, province, country, phone, "0"))
                 {
-                    query = "UPDATE Users SET FirstName = @FirstName, Surname = @Surname, Email = @Email, " +
-                        "StreetNumber = @StreetNumber, " +
-                            "Street = @Street, Suburb = @Suburb, City = @City, Province = @Province, Country = " +
-                            "@Country, Phone = @Phone WHERE Id = @FarmerId";
-                    command.Parameters.AddWithValue("@FarmerId", farmerId);
+                    message = "Farmer Details Have Been Successfully Updated";
                 }
-                // If FarmerId is not present, insert a new farmer
                 else
                 {
-                    password = GeneratePassword(); // Generate password for new farmer
-                    string hashedPassword = HashPassword(password); // Hash the password
-
-                    query = "INSERT INTO Users (FirstName, Surname, Email, Password, StreetNumber, Street, Suburb, " +
-                        "City, Province, Country, Phone, Employee) " +
-                            "VALUES (@FirstName, @Surname, @Email, @Password, @StreetNumber, @Street, @Suburb, @City, " +
-                            "@Province, @Country, @Phone, 0)";
-                    command.Parameters.AddWithValue("@Password", hashedPassword);
+                    message = "An Error Occured And The Farmer Was Not Updated!";
                 }
-
-                command.CommandText = query;
-                command.Parameters.AddWithValue("@FirstName", firstName);
-                command.Parameters.AddWithValue("@Surname", surname);
-                command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@StreetNumber", streetNumber);
-                command.Parameters.AddWithValue("@Street", street);
-                command.Parameters.AddWithValue("@Suburb", suburb);
-                command.Parameters.AddWithValue("@City", city);
-                command.Parameters.AddWithValue("@Province", province);
-                command.Parameters.AddWithValue("@Country", country);
-                command.Parameters.AddWithValue("@Phone", phone);
-
-                connection.Open();
-                int rowsAffected = command.ExecuteNonQuery(); // Execute the SQL command and get the number of rows affected
-                connection.Close();
-
-                if (rowsAffected > 0)
+            }
+            else
+            {
+                if (!dbController.CheckForEmail(email))
                 {
-                    // Clear the form
-                    ClearForm(); // Clear the form fields
+                    password = GeneratePassword();
+                    string hashedPassword = HashPassword(password);
 
-
-                    string message;
-
-                    if (string.IsNullOrEmpty(farmerId))
+                    if (dbController.CreateUser(firstName, surname, email, hashedPassword, streetNumber, street,
+                        suburb, city, province, country, phone, "0"))
                     {
-                        message = "Farmer Details Have Been Successfully Saved!\n\nIn The Release Version Of The Website, " +
-                            "An Email Will Be Sent To The Farmer With Their Information.\nHere Is This Farmer's Temporary " +
-                            "Password: " + password;
+                        message = "Farmer Details Have Been Successfully Saved! In The Release Version Of The Website, " +
+                                  "An Email Will Be Sent To The Farmer With Their Information. Here Is The Temporary " +
+                                  "Password: " + password;
                     }
                     else
                     {
-                        message = "Farmer Details Have Been Successfully Updated";
+                        message = "An Error Occured And The Farmer Was Not Created!";
                     }
-
-                    // Register the script to show the popup
-                    string script = $@"<script>showPopup('{message}');</script>";
-                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowPopupScript", script, false);
-
-                }   
+                }
+                else
+                {
+                    message = "This Email Is Already Associated With An Account!";
+                }
             }
-        }
-
-        // Clear all form fields
-        private void ClearForm()
-        {
-            txtFirstName.Text = "";
-            txtSurname.Text = "";
-            txtStreetNumber.Text = "";
-            txtStreet.Text = "";
-            txtSuburb.Text = "";
-            txtCity.Text = "";
-            txtProvince.Text = "";
-            txtCountry.Text = "";
-            txtEmail.Text = "";
-            txtPhone.Text = "";
+            string script = $@"<script>showPopup('{message}');</script>";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowPopupScript", script);
         }
 
         // Generate a random password for new farmers
@@ -217,6 +163,5 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 return builder.ToString(); // Return the hashed password
             }
         }
-
     }
 }

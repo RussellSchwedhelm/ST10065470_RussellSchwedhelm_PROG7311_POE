@@ -216,6 +216,7 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Classes\DBController.cs" />
     <Compile Include="CreateFarmer.aspx.cs">
       <DependentUpon>CreateFarmer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

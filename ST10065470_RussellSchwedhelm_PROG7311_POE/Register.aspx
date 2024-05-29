@@ -99,10 +99,10 @@
                 
                 <!-- Password -->
                 <div class="section-title">Password Info</div>
-                <asp:TextBox ID="inp_password" runat="server" Placeholder="Password" CssClass="form-control" />
+                <asp:TextBox ID="inp_password" TextMode="Password" runat="server" Placeholder="Password" CssClass="form-control" />
 
                 <!-- Confirm Password -->
-                    <asp:TextBox ID="inp_confirmPassword" runat="server" Placeholder="Confirm Password" CssClass="form-control" />
+                    <asp:TextBox ID="inp_confirmPassword" TextMode="Password" runat="server" Placeholder="Confirm Password" CssClass="form-control" />
 
                 <div class="section-separator"></div>
 

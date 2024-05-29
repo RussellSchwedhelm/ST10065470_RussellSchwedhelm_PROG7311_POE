@@ -171,14 +171,9 @@ body {
     margin-top: 20px;
     margin-bottom: 10px;
     padding: 20px;
-    width: 300px;
 }
 
-    .message-box h3 {
-        margin: 0 0 10px 0;
-    }
-
-/* Navbar styling */
+/* Navigation bar styling */
 .navbar {
     background-color: #4CAF50;
     overflow: hidden;
@@ -213,9 +208,21 @@ body {
 
 /* Search bar styling */
 .search-bar {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Ensure elements wrap if needed */
 }
+
+    .search-bar input,
+    .search-bar select,
+    .search-bar .buttons {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+        width: auto; /* Ensure width is auto to wrap content */
+    }
 
 /* Section content styling */
 .section-content {
@@ -241,6 +248,7 @@ body {
     border-width: 1px;
     list-style: none;
     padding: 10px;
+    overflow-y: scroll;
 }
 
     /* Individual list item styles for features and suppliers */
@@ -249,7 +257,8 @@ body {
     .items-list li {
         background-color: #e2e2e2;
         border-radius: 5px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        margin-top: 5px;
         padding: 10px;
     }
 

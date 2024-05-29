@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Modify Farmers" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ModifyFarmers.aspx.cs" Inherits="ST10065470_RussellSchwedhelm_PROG7311_POE.ModifyFarmers" %>
+﻿<%@ Page Title="Modify Farmers" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ModifyFarmers.aspx.cs" Inherits="ST10065470_RussellSchwedhelm_PROG7311_POE.ModifyFarmers" enableEventValidation="false" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link href="<%= ResolveUrl("~/Content/styles.css") %>" rel="stylesheet" type="text/css" />
     <style>
@@ -28,7 +28,7 @@
                         <span><%# Eval("Username") %></span>
                         <div>
                             <asp:Button ID="btnModify" runat="server" Text="Modify" CssClass="buttons" CommandArgument='<%# Eval("Id") %>' OnClick="btnModify_Click" />
-                            <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="buttons" OnClientClick='<%# "showPopup(" + Eval("Id") + "); return false;" %>' />
+                            <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="buttons" OnClientClick='<%# "showPopup(\"" + Eval("Id") + "\"); return false;" %>' />
                         </div>
                     </li>
                 </ItemTemplate>

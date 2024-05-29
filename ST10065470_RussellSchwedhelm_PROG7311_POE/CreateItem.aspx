@@ -60,8 +60,7 @@
             <input type="text" id="inp_itemName" name="itemName" runat="server" />
 
             <label for="sel_category">Category</label>
-            <select id="sel_category" name="category" runat="server">
-            </select>
+            <select id="sel_category" name="category" runat="server"/>
             <input type="text" id="inp_newCategory" name="newCategory" runat="server" placeholder="Enter new category" style="display: none;" />
             <asp:Button ID="btnNewCat" CssClass="buttons" runat="server" Text="New Category" OnClientClick="showCategoryInput(); return false;" />
 
