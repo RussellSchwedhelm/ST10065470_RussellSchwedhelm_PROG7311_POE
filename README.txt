@@ -29,6 +29,7 @@ Contents:
    15.3. Employee Status
    15.4. Database Queries
 16. Demo Accounts
+17. GitHub Link
 ----------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------
 How To Set Up Visual Studio And Run The Program
@@ -895,3 +896,9 @@ Password: 1eMk3n0ugh4M3
 Employee: NO
 
 ALL DEMO DATA WAS ADDED THROUGH THE WEBSITE USING THE DEMO LOGINS
+
+GitHub Repository Link:
+~~~~~~~~~~~~~~~~~~~~~~~
+https://github.com/ST10065470/ST10065470_RussellSchwedhelm_PROG7311_POE.git
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
