@@ -896,7 +896,8 @@ Password: 1eMk3n0ugh4M3
 Employee: NO
 
 ALL DEMO DATA WAS ADDED THROUGH THE WEBSITE USING THE DEMO LOGINS
-
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
 GitHub Repository Link:
 ~~~~~~~~~~~~~~~~~~~~~~~
 https://github.com/ST10065470/ST10065470_RussellSchwedhelm_PROG7311_POE.git
