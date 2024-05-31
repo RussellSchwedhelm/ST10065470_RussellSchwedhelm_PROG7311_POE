@@ -11,6 +11,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
     public partial class Login : Page
     {
         DBController dbControler;
+        //----------------------------------------------------------------------------------------------------------------------//
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initialize session variables
@@ -18,7 +19,8 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             Session["UserID"] = -1; // Set UserID to -1 by default
             dbControler = new DBController();
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
+        // Method to log the user in after a button click
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string email = this.email.Text;
@@ -51,7 +53,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 ScriptManager.RegisterStartupScript(this, GetType(), "LoginFailure", script, true);
             }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         // Method to hash the password using SHA-256 algorithm
         private string HashPassword(string password)
         {
@@ -72,5 +74,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 return builder.ToString();
             }
         }
+        //----------------------------------------------------------------------------------------------------------------------//
     }
 }
+//-----------------------------------------------End Of Page-----------------------------------------------------------------------//

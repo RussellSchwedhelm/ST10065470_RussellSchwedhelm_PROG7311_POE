@@ -17,7 +17,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 return false; // Return false by default if session variable is not set
             }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         // Property to check if the user is logged on
         public bool LoggedOn
         {
@@ -35,7 +35,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 Session["IsLoggedOn"] = value;
             }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         // Property to get or set the user ID
         public int UserID
         {
@@ -53,10 +53,12 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 Session["UserID"] = value;
             }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         protected void Page_Load(object sender, EventArgs e)
         {
             // No specific actions required on page load
         }
+        //----------------------------------------------------------------------------------------------------------------------//
     }
 }
+//-----------------------------------------------End Of Page-----------------------------------------------------------------------//

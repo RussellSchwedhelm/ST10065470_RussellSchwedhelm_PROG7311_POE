@@ -20,7 +20,6 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             else
             {
                 // User is logged on, continue loading the page
-                // Add your page load logic here
             }
         }
     }

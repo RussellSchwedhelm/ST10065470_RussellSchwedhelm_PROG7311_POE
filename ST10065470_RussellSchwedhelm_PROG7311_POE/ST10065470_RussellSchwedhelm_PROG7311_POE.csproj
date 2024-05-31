@@ -140,10 +140,15 @@
     <Content Include="ProjectCollaboration.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="ResetPassword.aspx" />
+    <Content Include="Resources\Images\CreateFarmerBanner.jpg" />
+    <Content Include="Resources\Images\CreateItemBanner.jpg" />
     <Content Include="Resources\Images\GreenEnergyBanner.jpg" />
     <Content Include="Resources\Images\HomeBanner.jpg" />
     <Content Include="Resources\Images\EducationalResourcesBanner.jpg" />
     <Content Include="Resources\Images\AboutUsBanner.jpg" />
+    <Content Include="Resources\Images\LoginBanner.png" />
+    <Content Include="Resources\Images\RegisterUserBanner.jpg" />
+    <Content Include="Resources\Images\ResetPasswordBanner.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />

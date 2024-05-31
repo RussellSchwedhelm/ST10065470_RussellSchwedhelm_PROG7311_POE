@@ -25,20 +25,30 @@
             border-top: none;
             border-radius: 0 0 5px 5px;
             padding: 10px;
-            display: flex; /* Make the chat content flex container */
-            justify-content: space-between; /* Align items to the right side */
-            align-items: center; /* Center items vertically */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chips-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .button-container {
+            margin-left: auto;
         }
     </style>
 
     <div class="container">
         <h1>Forum</h1>
-
-                <div class="chips-container">
-                    <div class="chip" onclick="toggleChip(this)">Seek Advice</div>
-                    <div class="chip" onclick="toggleChip(this)">Experiences</div>
-                    <div class="chip" onclick="toggleChip(this)">Collaborate</div>
-            <button style="margin-left: auto;" class="buttons">New Chat</button>
+        <div class="chips-container">
+            <div class="chip" onclick="toggleChip(this)">Seek Advice</div>
+            <div class="chip" onclick="toggleChip(this)">Experiences</div>
+            <div class="chip" onclick="toggleChip(this)">Collaborate</div>
+            <div class="button-container">
+                <asp:Button runat="server" Text="New Chat" CssClass="buttons" OnClick="NewChat_Click" />
+            </div>
         </div>
 
         <div class="forum-container">
@@ -48,7 +58,7 @@
                 </div>
                 <div class="chat-content">
                     <p>This Is The Description Of Chat 1</p>
-                    <button class="buttons" PostBackUrl="~/ExpandedChat.aspx">Expand</button>
+                    <asp:Button runat="server" Text="Expand" CssClass="buttons" OnClick="ExpandChat_Click" CommandArgument="1" />
                 </div>
             </div>
             <div class="chat-section">
@@ -57,7 +67,7 @@
                 </div>
                 <div class="chat-content">
                     <p>This Is The Description Of Chat 2</p>
-                    <button class="buttons" PostBackUrl="~/ExpandedChat.aspx">Expand</button>
+                    <asp:Button runat="server" Text="Expand" CssClass="buttons" OnClick="ExpandChat_Click" CommandArgument="2" />
                 </div>
             </div>
             <div class="chat-section">
@@ -66,7 +76,7 @@
                 </div>
                 <div class="chat-content">
                     <p>This Is The Description Of Chat 3</p>
-                    <button class="buttons" PostBackUrl="~/ExpandedChat.aspx">Expand</button>
+                    <asp:Button runat="server" Text="Expand" CssClass="buttons" OnClick="ExpandChat_Click" CommandArgument="3" />
                 </div>
             </div>
         </div>

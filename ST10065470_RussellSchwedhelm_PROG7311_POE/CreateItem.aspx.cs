@@ -1,15 +1,13 @@
-﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
+﻿using ST10065470_RussellSchwedhelm_PROG7311_POE.Classes;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 {
     public partial class CreateItem : System.Web.UI.Page
     {
+        DBController dbController = new DBController();
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if the user is logged on
@@ -23,17 +21,18 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 // Check if the user is an employee
                 if (master.Employee)
                 {
+                    // Redirect employees to the home page
                     Response.Redirect("~/Home.aspx");
                 }
 
+                // Populate categories dropdown list if the page is not a postback
                 if (!IsPostBack)
                 {
-                    // Populate the categories dropdown list
                     PopulateCategories();
                 }
             }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         // Event handler for creating a new item
         protected void btnCreateItem_Click(object sender, EventArgs e)
         {
@@ -41,150 +40,97 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
             string itemName = inp_itemName.Value;
             string category = this.sel_category.Value;
 
-            if (category == "new")
+            // Check if the category list contains the name of the selected category
+            bool categoryExists = CategoryExists(category);
+
+            if (category != "")
+            {
+                // Check if the category already exists
+                if (categoryExists)
+                {
+                    // Use the existing category ID
+                    dbController.CreateNewItem(itemName, dbController.GetCategoryId(category), DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
+                }
+                else
+                {
+                    // Create the new category and get its ID
+                    int newCategoryId = dbController.CreateNewCategory(category);
+                    dbController.CreateNewItem(itemName, newCategoryId, DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
+                }
+
+                // Redirect to a page confirming the item creation
+                Response.Redirect("~/GreenEnergyMarketplace.aspx");
+            }
+            else if (inp_newCategory.Value != "")
             {
                 // If the user selected to create a new category, use the value from the newCategory input
                 category = this.inp_newCategory.Value;
                 category = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(category.ToLower());
 
                 // Check if the category already exists
-                int existingCategoryId = GetCategoryIdByName(category);
-
-                if (existingCategoryId > 0)
+                if (categoryExists)
                 {
                     // Use the existing category ID
-                    CreateNewItem(itemName, existingCategoryId, DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
+                    dbController.CreateNewItem(itemName, dbController.GetCategoryId(category), DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
                 }
                 else
                 {
                     // Create the new category and get its ID
-                    int newCategoryId = CreateNewCategory(category);
-                    CreateNewItem(itemName, newCategoryId, DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
+                    int newCategoryId = dbController.CreateNewCategory(category);
+                    dbController.CreateNewItem(itemName, newCategoryId, DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
                 }
+
+                // Redirect to a page confirming the item creation
+                Response.Redirect("~/GreenEnergyMarketplace.aspx");
             }
             else
             {
-                // Use the selected category ID
-                int categoryId = int.Parse(category);
-                CreateNewItem(itemName, categoryId, DateTime.Parse(this.inp_dateOfProduction.Value), this.inp_description.Value, (int)Session["UserID"]);
+                // Display popup error on the webpage
+                string errorMessage = "Please select a category or enter a new category.";
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorPopup", $"alert('{errorMessage}');", true);
             }
-
-            // Redirect to a page confirming the item creation
-            Response.Redirect("~/GreenEnergyMarketplace.aspx");
         }
 
+        //----------------------------------------------------------------------------------------------------------------------//
+        // Check if the category exists in the dropdown list
+        private bool CategoryExists(string category)
+        {
+            foreach (ListItem item in sel_category.Items)
+            {
+                if (item.Text == category)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        //----------------------------------------------------------------------------------------------------------------------//
         // Event handler for adding a new category
         protected void btnNewCat_Click(object sender, EventArgs e)
         {
-            // Show the input field for new category
-            inp_newCategory.Visible = true;
+            if (inp_newCategory.Visible == true)
+            {
+                // hide the input field for new category
+                inp_newCategory.Visible = false;
+                sel_category.SelectedIndex = 0;
+                sel_category.Disabled = false;
+            }
+            else
+            {
+                // Show the input field for new category
+                inp_newCategory.Visible = true;
+                sel_category.SelectedIndex = -1;
+                sel_category.Value = "";
+                sel_category.Disabled = true;
+            }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         // Populate categories dropdown list
         private void PopulateCategories()
         {
-            // Retrieve connection string from configuration
-            string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            // SQL query to retrieve categories from the database
-            string query = "SELECT Id, Category FROM Categories ORDER BY Category";
-
-            // Establish connection and execute the query
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    // Clear existing items in the dropdown list
-                    sel_category.Items.Clear();
-
-                    // Add categories retrieved from the database to the dropdown list
-                    while (reader.Read())
-                    {
-                        sel_category.Items.Add(new ListItem(reader["Category"].ToString(), reader["Id"].ToString()));
-                    }
-                }
-            }
-        }
-
-        // Retrieve category ID by name
-        private int GetCategoryIdByName(string category)
-        {
-            // Retrieve connection string from configuration
-            string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            // SQL query to retrieve category ID by name
-            string query = "SELECT Id FROM Categories WHERE Category = @Category";
-
-            // Establish connection and execute the query
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Category", category);
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-
-                    // If the category exists, return its ID
-                    if (result != null)
-                    {
-                        return Convert.ToInt32(result);
-                    }
-                }
-            }
-
-            // Return -1 if category not found
-            return -1;
-        }
-
-        // Create a new category
-        private int CreateNewCategory(string category)
-        {
-            // Retrieve connection string from configuration
-            string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            // SQL query to insert a new category into the database
-            string query = "INSERT INTO Categories (Category) OUTPUT INSERTED.Id VALUES (@Category)";
-
-            // Establish connection and execute the query
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Category", category);
-                    conn.Open();
-
-                    // Execute the query and return the newly generated category ID
-                    return (int)cmd.ExecuteScalar();
-                }
-            }
-        }
-
-        // Create a new item
-        private void CreateNewItem(string itemName, int categoryId, DateTime dateOfProduction, string description, int userId)
-        {
-            // Retrieve connection string from configuration
-            string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            // SQL query to insert a new item into the database
-            string query = "INSERT INTO Items (UserId, ProductName, CategoryId, PDate, Description) VALUES (@UserId, @ProductName, @CategoryId, @PDate, @Description)";
-
-            // Establish connection and execute the query
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@ProductName", itemName);
-                    cmd.Parameters.AddWithValue("@CategoryId", categoryId);
-                    cmd.Parameters.AddWithValue("@PDate", dateOfProduction);
-                    cmd.Parameters.AddWithValue("@Description", description);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            sel_category.DataSource = dbController.GetAllCategories();
+            sel_category.DataBind();
         }
     }
 }
+//-----------------------------------------------End Of Page-----------------------------------------------------------------------//

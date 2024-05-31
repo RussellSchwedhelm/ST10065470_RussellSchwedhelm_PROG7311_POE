@@ -4,6 +4,7 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
 {
     public partial class Home : System.Web.UI.Page
     {
+        //----------------------------------------------------------------------------------------------------------------------//
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if the user is logged on
@@ -21,10 +22,12 @@ namespace ST10065470_RussellSchwedhelm_PROG7311_POE
                 }
             }
         }
-
+        //----------------------------------------------------------------------------------------------------------------------//
         protected void btnLearnMore_Click(object sender, EventArgs e)
         {
-            // Handle button click event
+            Response.Redirect("~/AboutUs.aspx");
         }
+        //----------------------------------------------------------------------------------------------------------------------//
     }
 }
+//-----------------------------------------------End Of Page-----------------------------------------------------------------------//

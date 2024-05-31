@@ -87,7 +87,7 @@
             <ul class="items-list">
                 <asp:Repeater ID="itemList" runat="server">
                     <ItemTemplate>
-                        <<li><%# Eval("ProductName") %> &nbsp;&nbsp;|&nbsp;&nbsp; <%# Eval("Category") %> &nbsp;&nbsp;|&nbsp;&nbsp; <%# Eval("PDate", "{0:yyyy-MM-dd}") %></li>
+                        <li><%# Eval("ProductName") %> &nbsp;&nbsp;|&nbsp;&nbsp; <%# Eval("Category") %> &nbsp;&nbsp;|&nbsp;&nbsp; <%# Eval("PDate", "{0:yyyy-MM-dd}") %></li>
                     </ItemTemplate>
                 </asp:Repeater>
             </ul>
