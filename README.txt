@@ -35,7 +35,7 @@ Contents:
 How To Set Up Visual Studio And Run The Program
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Step 1: Download and Install Visual Studio
-Visit the official Visual Studio website: Visual Studio Downloads
+Visit the official Visual Studio website
 
 Choose the version of Visual Studio you want to install (Community, Professional, or Enterprise) and 
 click on the "Download" button.
@@ -65,7 +65,7 @@ the project settings.
 ----------------------------------------------------------------------------------------------------------
 Login:
 ~~~~~~
-Welcome to the login page of our application! This page allows you to securely access your account. 
+Welcome to the login page. This page allows you to securely access your account. 
 Below, you'll find guidance on how to navigate the page and what information to provide:
 ---------------------------------------
 Login Form:
@@ -109,7 +109,7 @@ being stored or compared. This ensures that your password remains encrypted and 
 ----------------------------------------------------------------------------------------------------------
 Register
 ~~~~~~~~
-Welcome to the registration page of our application! This page allows you to create a new account. Below, 
+Welcome to the registration page. This page allows you to create a new account. Below, 
 you'll find guidance on how to navigate the page and what information to provide:
 ---------------------------------------
 Registration Form:
@@ -166,7 +166,7 @@ prior to registration. For the sake of this demo, the employee code is: 12Huustc
 ----------------------------------------------------------------------------------------------------------
 Reset Password
 ~~~~~~~~~~~~~~
-Welcome to the reset password page of our application! This page allows you to reset your password if 
+Welcome to the reset password page! This page allows you to reset your password if 
 you've forgotten it. Below, you'll find guidance on how to navigate the page and what information to provide:
 ---------------------------------------
 Reset Password Form:
@@ -213,8 +213,8 @@ before submission. If any errors are detected, an alert will prompt you to corre
 ----------------------------------------------------------------------------------------------------------
 Home
 ~~~~
-Welcome to the hOME page of Agri-Energy Connect, your hub for sustainable agriculture and green energy 
-solutions! Below, you'll find guidance on how to navigate the page and what features are available:
+Welcome to the Home page of Agri-Energy Connect, your hub for sustainable agriculture and green energy 
+solutions. Below, you'll find guidance on how to navigate the page and what features are available:
 ---------------------------------------
 Main Banner: The top section of the page features a captivating banner with the title "Welcome to Agri-Energy Connect" 
 and a brief description of the platform's purpose. You'll also find a "Learn More" button directing you to the About Us page.
