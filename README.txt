@@ -173,7 +173,7 @@ Reset Password Form:
 ---------------------------------------
 Email: Enter the email address associated with your account in this field.
 
-Old Password: Provide your old password (if applicable). This field is optional and only required if you 
+Old Password: Provide your old password. This field is required if you 
 wish to change your password.
 
 New Password: Enter your new password in this field.
@@ -190,8 +190,8 @@ Instructions:
 Email: Enter the email address associated with your account in the "Email" field. Make sure to enter 
 the email correctly to ensure that the password reset request is sent to the correct address.
 
-Old Password: If you remember your old password and wish to change it, you can enter it in the 
-"Old Password" field. This field is optional.
+Old Password: If you remember your old password and wish to change it, you must enter it in the 
+"Old Password" field.
 
 New Password: Enter your new password in the "New Password" field. Passwords must be at least 12 
 characters long and contain at least one number and one capital letter.
